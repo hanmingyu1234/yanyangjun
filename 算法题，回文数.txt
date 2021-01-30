@@ -1,0 +1,75 @@
+#include <stdio.h>
+int panduan(long long int n)
+{
+	long long int sum,k=0;
+	sum=n;
+	while(sum>0)
+	{
+		k=k*10+sum%10;
+		sum=sum/10;
+	}
+	if(k==n)
+	{
+		return 1;
+	}
+	return 0;
+}
+long long int nizhi(long long int n)
+{
+	long long int k=0;
+	while(n>0)
+	{
+		k=k*10+n%10;
+		n=n/10;
+	}
+	return k;
+}
+int main()
+{
+	long long int n,m;
+	long long int a[10000]={0};
+	long long int b[10000]={0};
+	long long int i=0,j=0,count=0;
+	while(scanf("%lld",&b[j])!=EOF)
+	{
+		j++;
+	}
+	for(m=0;m<j;m++)
+	{
+		i=0;
+		n=b[m];
+		a[i]=n;
+	    count=0;
+		while(panduan(n)==0)
+		{
+			n=n+nizhi(n);
+			i++;
+			a[i]=n;
+			count++;
+		}	
+		printf("%lld\n",count);
+		for(i=0;i<count;i++)
+		{
+			printf("%lld--->",a[i]);
+		}
+		printf("%lld\n",a[count]);
+	}
+}
+总结：本题的总体思路比较清晰，就是判断，求和等等，但是难点在于如何判断一个数是否是回文数，一个数如何逆置。详情见以下代码：
+#include <stdio.h>
+void main(){
+	int num,s,y=0;
+	printf("Please input numbers: ");
+	scanf("%d", &num);
+	s=num;
+	while(s>0){
+		y=y*10+s%10;
+		s=s/10;
+	}
+	if(y==num){
+		printf("%d是一个回文数!\n", num);
+	}else{
+		printf("%d不是一个回文数!\n", num);
+	}
+}
+通过本题，我学到了巧妙使用取余和取商实现一个数的逆置。
