@@ -1,0 +1,109 @@
+#include <iostream>
+#include <queue>
+#include <cstring>
+using namespace std;
+char path[35][35][35];
+int d[35][35][35];
+struct point
+{
+	int x;
+	int y;
+	int z;
+	int step;
+};
+queue<point>r;
+int main()
+{
+	int n,i,j;
+	int zz,xx,yy;
+	int x1,y1,z1,x2,y2,z2;
+	int dz[6]={0,0,0,0,1,-1};
+	int dx[6]={0,1,0,-1,0,0};
+	int dy[6]={1,0,-1,0,0,0};
+	cin>>zz>>xx>>yy;
+	while(1)
+	{
+		memset(d,0,sizeof d);
+		if(zz==0&&xx==0&&yy==0)
+		{
+			break;
+		}
+		for(n=1;n<=zz;n++)
+		{
+			for(i=1;i<=xx;i++)
+			{
+				for(j=1;j<=yy;j++)
+				{
+					cin>>path[n][i][j];
+				}
+			}
+		}
+		for(n=1;n<=zz;n++)
+		{
+			for(i=1;i<=xx;i++)
+			{
+				for(j=1;j<=yy;j++)
+				{
+					if(path[n][i][j]=='S')
+					{
+						z1=n;
+						x1=i;
+						y1=j;
+					}
+					if(path[n][i][j]=='E')
+					{
+						z2=n;
+						x2=i;
+						y2=j;
+					}
+				}
+			}
+		}
+		point start;
+		start.x=x1;
+		start.y=y1;
+		start.z=z1;
+		start.step=0;
+		r.push(start);//起点入队
+		d[z1][x1][y1]=1;
+		int fact=0;
+		while(!r.empty())
+		{
+			int a=r.front().x,b=r.front().y,c=r.front().z;
+			if(a==x2&&b==y2&&c==z2)
+			{
+				fact=1;
+				printf("Escaped in %d minute(s).\n",r.front().step);
+				break;
+			}
+			for(int k=0;k<6;k++)
+			{
+				int tx,tz,ty;
+				tx=a+dx[k];
+				ty=b+dy[k];
+				tz=c+dz[k];
+				if((path[tz][tx][ty]=='.'||path[tz][tx][ty]=='E') &&d[tz][tx][ty]==0 &&tz>0 &&tx>0 &&ty>0 &&tz<=zz &&tx<=xx &&ty<=yy)
+				{
+					point temp;
+					temp.z=tz;
+					temp.x=tx;
+					temp.y=ty;
+					temp.step=r.front().step+1;
+					r.push(temp);
+					d[tz][tx][ty]=1;
+				}
+			}
+			r.pop();
+		}
+		if(fact==0)
+		{
+			printf("Trapped!\n");
+		}
+		while(!r.empty())
+		{
+			r.pop();
+		}
+		
+		cin>>zz>>xx>>yy;
+	}
+}
