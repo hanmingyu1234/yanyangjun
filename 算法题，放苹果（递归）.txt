@@ -1,0 +1,42 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+int dg[100][100];
+
+int main()
+{
+	int m,n,t;
+	cin>>t;
+	while(t--)
+	{
+		cin>>m>>n;
+		for(int i=1;i<=m;i++)
+		{
+			dg[i][1]=1;
+		}
+		for(int i=1;i<=n;i++)
+		{
+			dg[1][i]=1;
+		}
+		for(int i=1;i<=n;i++)
+		{
+			dg[0][i]=1;
+		}
+		for(int i=2;i<=m;i++)
+		{
+			for(int j=2;j<=n;j++)
+			{
+				if(i>=j)
+				{
+					dg[i][j]=dg[i-j][j]+dg[i][j-1];
+				}
+				if(i<j)
+				{
+					dg[i][j]=dg[i][i];
+				}
+			}
+		}
+		cout<<dg[m][n]<<endl;
+	}
+}
